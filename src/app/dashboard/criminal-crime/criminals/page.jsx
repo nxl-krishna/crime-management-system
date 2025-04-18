@@ -88,6 +88,11 @@ setIsAdded(true);
           <p className="text-center mt-4 text-green-700">Latest Criminal ID: {criminalId}</p>
         )}
       </div>
+      <a href="/dashboard/criminal-crime/criminals/updatedeletecriminals">
+  <button className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+   update/delete
+  </button>
+</a>
     </div>
   );
 }

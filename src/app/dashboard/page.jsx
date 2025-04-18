@@ -1,12 +1,12 @@
 "use client";
 
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AnalysisPage from "../../component/Analysis";
 
 export default function Dashboard() {
     const router = useRouter();
+    const [totalCases, setTotalCases] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -19,17 +19,33 @@ export default function Dashboard() {
         router.push(path);
     };
 
+    useEffect(() => {
+        const fetchTotalCases = async () => {
+            try {
+                const response = await fetch("/api/analysis/casecount");
+                if (response.ok) {
+                    const data = await response.json();
+                    setTotalCases(data.total_cases);
+                } else {
+                    console.error("Failed to fetch total cases");
+                }
+            } catch (error) {
+                console.error("Error fetching total cases:", error);
+            }
+        };
+
+        fetchTotalCases();
+    }, []); // Empty dependency array ensures this runs once when the component mounts
+
     return (
         <>
-            <div className="flex flex-col items-center  min-h-20vh bg-gray-100">
-                
+            <div className="flex flex-col items-center min-h-20vh bg-gray-100">
                 <nav className="w-full bg-gray-800 p-4">
                     <div className="flex justify-between items-center">
                         <h1 className="text-2xl text-white font-bold">Crime Management System</h1>
                         <div className="space-x-4">
                             {[
-                               
-                              
+                                { name: "Case report", path: "/dashboard/cases/pdf" },
                                 { name: "Criminals", path: "/dashboard/criminal-crime/criminals" },
                                 { name: "Crimes", path: "/dashboard/criminal-crime/crime" },
                                 { name: "Cases", path: "/dashboard/cases" },
@@ -39,7 +55,6 @@ export default function Dashboard() {
                                 { name: "Bail-Parole", path: "/dashboard/bailparol" },
                                 { name: "Victims", path: "/dashboard/victims" },
                                 { name: "Witnesses", path: "/dashboard/witnesses" },
-                               
                                 { name: "Analysis", path: "/analysis" },
                                 { name: "Logout", path: "/auth/login" }
                             ].map((item) => (
@@ -54,9 +69,14 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </nav>
-                
+
+                {/* Displaying the total cases */}
+                <div className="mt-8">
+                    <h2 className="text-xl font-semibold">Total Cases: {totalCases !== null ? totalCases : "Loading..."}</h2>
+                </div>
             </div>
-            <AnalysisPage/>
+
+            <AnalysisPage />
         </>
     );
 }

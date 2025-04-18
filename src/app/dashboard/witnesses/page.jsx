@@ -1,3 +1,4 @@
+"use client"
 import { useState } from 'react';
 
 export default function WitnessManagement() {
@@ -28,6 +29,11 @@ export default function WitnessManagement() {
         <textarea name="statement" placeholder="Statement" onChange={handleChange} className="p-2 m-1 border rounded w-full"></textarea>
         <button onClick={handleAddWitness} className="bg-blue-500 text-white p-2 m-1 rounded">Add Witness</button>
       </div>
+      <a href="/dashboard/witnesses/updatedeletewitenesses">
+  <button className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+   update/delete
+  </button>
+</a>
     </div>
   );
 }

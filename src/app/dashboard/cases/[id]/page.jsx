@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import jsPDF from 'jspdf';
@@ -24,27 +24,60 @@ export default function CaseStudyPage() {
 
     const safeText = (text, fallback = 'N/A') => text || fallback;
 
+    const formatDate = (dateStr) => {
+        if (!dateStr) return 'N/A';
+        const date = new Date(dateStr);
+        return date.toDateString();
+    };
+
     const handleGeneratePDF = () => {
         if (!caseData) {
             alert('No case data found to generate PDF.');
             return;
         }
+
         const doc = new jsPDF();
-        doc.text(`Case ID: ${caseData.case_id}`, 10, 10);
-        doc.text(`Status: ${caseData.case_status}`, 10, 20);
-        doc.text(`Investigation Report: ${caseData.investigation_report || 'Pending'}`, 10, 30);
-        doc.text(`Verdict: ${caseData.verdict || 'Pending'}`, 10, 40);
-        doc.text(`Crime Type: ${safeText(caseData.crime_type)}`, 10, 50);
-        doc.text(`Crime Description: ${safeText(caseData.crime_description)}`, 10, 60);
-        doc.text(`Crime Date: ${safeText(caseData.crime_date)}`, 10, 70);
-        doc.text(`Crime Location: ${safeText(caseData.crime_location)}`, 10, 80);
-        doc.text(`Officer Name: ${safeText(caseData.officer_first_name)} ${safeText(caseData.officer_last_name)}`, 10, 90);
-        doc.text(`Officer Rank: ${safeText(caseData.ranks)}`, 10, 100);
-        doc.text(`Criminal Name: ${safeText(caseData.criminal_first_name)} ${safeText(caseData.criminal_last_name)}`, 10, 110);
-        doc.text(`Role: ${safeText(caseData.role)}`, 10, 120);
-        doc.text(`Conviction Status: ${safeText(caseData.conviction_status)}`, 10, 130);
-        doc.text(`Sentence: ${caseData.sentence_details || 'N/A'}`, 10, 140);
-        doc.save(`case_${caseData.case_id}.pdf`);
+        const marginLeft = 10;
+        const maxWidth = 190;
+        let y = 20;
+
+        doc.setFont("Times", "Normal");
+        doc.setFontSize(18);
+        doc.text("Case Report", 105, y, null, null, "center");
+
+        y += 10;
+        doc.setFontSize(12);
+
+        // Draw outer border
+        doc.rect(marginLeft, y, maxWidth - marginLeft * 2, 170);
+        y += 10;
+
+        const addBoxedLine = (label, value) => {
+            const lineHeight = 8;
+            const wrappedText = doc.splitTextToSize(`${label}: ${value}`, maxWidth - 20);
+            const boxHeight = wrappedText.length * lineHeight;
+
+            doc.rect(marginLeft, y, maxWidth - marginLeft * 2, boxHeight);
+            doc.text(wrappedText, marginLeft + 2, y + 6);
+            y += boxHeight;
+        };
+
+        addBoxedLine("Case ID", caseData.case_id);
+        addBoxedLine("Status", safeText(caseData.case_status));
+        addBoxedLine("Investigation Report", safeText(caseData.investigation_report, "Pending"));
+        addBoxedLine("Verdict", safeText(caseData.verdict, "Pending"));
+        addBoxedLine("Crime Type", safeText(caseData.crime_type));
+        addBoxedLine("Crime Description", safeText(caseData.crime_description));
+        addBoxedLine("Crime Date", formatDate(caseData.crime_date));
+        addBoxedLine("Crime Location", safeText(caseData.crime_location));
+        addBoxedLine("Officer Name", `${safeText(caseData.officer_first_name)} ${safeText(caseData.officer_last_name)}`);
+        addBoxedLine("Officer Rank", safeText(caseData.officer_rank));
+        addBoxedLine("Criminal Name", `${safeText(caseData.criminal_first_name)} ${safeText(caseData.criminal_last_name)}`);
+        addBoxedLine("Role", safeText(caseData.criminal_role));
+        addBoxedLine("Conviction Status", safeText(caseData.conviction_status));
+        addBoxedLine("Sentence", safeText(caseData.sentence));
+
+        doc.save(`case_${caseData.case_id}_report.pdf`);
     };
 
     return (

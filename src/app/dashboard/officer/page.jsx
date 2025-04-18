@@ -58,6 +58,11 @@ export default function AddOfficer() {
         ))}
         <button onClick={addOfficer} className="bg-blue-600 text-white p-3 rounded w-full">Add Officer</button>
       </div>
+      <a href="/dashboard/officer/updatedeleteofficer">
+  <button className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+   update/delete
+  </button>
+</a>
     </div>
   );
 }

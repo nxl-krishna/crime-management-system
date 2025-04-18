@@ -23,7 +23,7 @@ export default function Login() {
             const data = await res.json();
             if (res.ok) {
                 localStorage.setItem("token", data.token); // Store JWT token
-                
+
                 setMessage("Login successful! Redirecting...");
                 setTimeout(() => router.push("/dashboard"), 1000); // Redirect to dashboard
             } else {
@@ -38,11 +38,20 @@ export default function Login() {
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
             {message && (
-                <div className={`p-2 rounded mb-4 ${message.includes("successful") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                <div
+                    className={`p-2 rounded mb-4 ${
+                        message.includes("successful")
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                    }`}
+                >
                     {message}
                 </div>
             )}
-            <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-80">
+            <form
+                onSubmit={handleLogin}
+                className="bg-white p-6 rounded shadow-md w-80"
+            >
                 <input
                     type="text"
                     placeholder="Username"
@@ -55,13 +64,20 @@ export default function Login() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-2 mb-2 border rounded"
+                    className="w-full p-2 mb-4 border rounded"
                 />
                 <button
                     type="submit"
-                    className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                    className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 mb-2"
                 >
                     Log In
+                </button>
+                <button
+                    type="button"
+                    onClick={() => router.push("/auth/signup")}
+                    className="w-full bg-gray-200 text-gray-700 p-2 rounded hover:bg-gray-300"
+                >
+                    Sign Up
                 </button>
             </form>
         </div>

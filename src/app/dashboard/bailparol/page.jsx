@@ -37,6 +37,12 @@ export default function AddBailParole() {
         <input name="release_date" type="date" onChange={handleChange} className="p-2 m-1 border rounded" />
         <button onClick={handleAddRecord} className="bg-blue-500 text-white p-2 m-1 rounded">Add Record</button>
       </div>
+      <a href="/dashboard/bailparol/updatedeletebailparol">
+  <button className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+   update/delete
+  </button>
+</a>
+
     </div>
   );
 }

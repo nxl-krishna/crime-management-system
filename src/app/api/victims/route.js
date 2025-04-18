@@ -4,7 +4,7 @@ import { db } from "../../../../lib/db";
 // Get all victims with crime details
 export async function GET() {
   try {
-    const connection = await db();
+    const connection = await db;
     const [rows] = await connection.execute(`
       SELECT v.victim_id, v.first_name, v.last_name, v.age, v.gender, v.contact_info, v.injuries, v.created_at,
              c.crime_id, c.crime_type, c.crime_date, c.crime_location
@@ -21,7 +21,7 @@ export async function GET() {
 export async function POST(req) {
   try {
     const { crime_id, first_name, last_name, age, gender, contact_info, injuries } = await req.json();
-    const connection = await db();
+    const connection = await db;
     await connection.execute(
       `INSERT INTO victims (crime_id, first_name, last_name, age, gender, contact_info, injuries)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -37,7 +37,7 @@ export async function POST(req) {
 export async function PUT(req) {
   try {
     const { victim_id, first_name, last_name, age, gender, contact_info, injuries } = await req.json();
-    const connection = await db();
+    const connection = await db;
     await connection.execute(
       `UPDATE victims SET 
         first_name = ?, last_name = ?, age = ?, gender = ?, contact_info = ?, injuries = ?
@@ -54,7 +54,7 @@ export async function PUT(req) {
 export async function DELETE(req) {
   try {
     const { victim_id } = await req.json();
-    const connection = await db();
+    const connection = await db;
     await connection.execute("DELETE FROM victims WHERE victim_id = ?", [victim_id]);
     return new Response(JSON.stringify({ message: "Victim record deleted successfully" }), { status: 200 });
   } catch (error) {

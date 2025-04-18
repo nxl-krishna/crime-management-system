@@ -70,6 +70,11 @@ export default function AddCrime() {
           <p className="text-center mt-4 text-green-700">Latest Crime ID: {crimeId}</p>
         )}
       </div>
+      <a href="/dashboard/criminal-crime/crime/updatedeletecrime">
+  <button className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+   update/delete
+  </button>
+</a>
     </div>
   );
 }

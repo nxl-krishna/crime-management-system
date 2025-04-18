@@ -70,6 +70,11 @@ export default function AddCriminalCrime() {
         ))}
         <button onClick={addCriminalCrime} className="bg-green-600 text-white p-3 rounded w-full">Add Criminal-Crime</button>
       </div>
+      <a href="/dashboard/criminal-crime/updatedeletecriminal-crime">
+  <button className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+   update/delete
+  </button>
+</a>
     </div>
   );
 }

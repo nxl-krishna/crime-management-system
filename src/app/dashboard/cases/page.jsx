@@ -71,6 +71,11 @@ export default function ManageCases() {
         ))}
         <button onClick={addCase} className="bg-green-600 text-white p-3 rounded w-full">Add Case</button>
       </div>
+      <a href="/dashboard/cases/updatedeletecase">
+  <button className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+   update/delete
+  </button>
+</a>
     </div>
   );
 }

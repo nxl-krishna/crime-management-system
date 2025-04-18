@@ -58,6 +58,11 @@ export default function AddEvidence() {
         ))}
         <button onClick={addEvidence} className="bg-green-600 text-white p-3 rounded w-full">Add Evidence</button>
       </div>
+      <a href="/dashboard/evidence/updatedeleteevidence">
+  <button className="mt-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow">
+   update/delete
+  </button>
+</a>
     </div>
   );
 }
