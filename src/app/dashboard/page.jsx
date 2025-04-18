@@ -7,6 +7,7 @@ import AnalysisPage from "../../component/Analysis";
 export default function Dashboard() {
     const router = useRouter();
     const [totalCases, setTotalCases] = useState(null);
+    const [totalOfficers, setTotalOfficers] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -35,7 +36,25 @@ export default function Dashboard() {
         };
 
         fetchTotalCases();
-    }, []); // Empty dependency array ensures this runs once when the component mounts
+    }, []);
+     // Empty dependency array ensures this runs once when the component mounts
+     useEffect(() => {
+        const fetchTotalOfficers = async () => {
+            try {
+                const response = await fetch("/api/analysis/countofficer");
+                if (response.ok) {
+                    const data = await response.json();
+                    setTotalOfficers(data.total_officers);
+                } else {
+                    console.error("Failed to fetch total cases");
+                }
+            } catch (error) {
+                console.error("Error fetching total cases:", error);
+            }
+        };
+
+        fetchTotalOfficers();
+    }, []);
 
     return (
         <>
@@ -73,6 +92,9 @@ export default function Dashboard() {
                 {/* Displaying the total cases */}
                 <div className="mt-8">
                     <h2 className="text-xl font-semibold">Total Cases: {totalCases !== null ? totalCases : "Loading..."}</h2>
+                </div>
+                <div className="mt-8">
+                    <h2 className="text-xl font-semibold">Total Officers: {totalOfficers !== null ? totalOfficers : "Loading..."}</h2>
                 </div>
             </div>
 
